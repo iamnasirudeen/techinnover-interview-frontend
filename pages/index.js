@@ -70,20 +70,27 @@ function Home() {
     formData.append("photograph", photograph[0].originFileObj);
 
     var ajax = new XMLHttpRequest();
+    ajax.responseType = "json";
     ajax.addEventListener("load", completeHandler, false);
     ajax.addEventListener("error", errorHandler, false);
     ajax.open("POST", "http://172.104.205.11/user/create");
     ajax.send(formData);
 
     function completeHandler(event) {
-      form.resetFields();
-      setIsLoading(false);
-      response("Data uploaded successfully.", "success");
+      if (ajax.status == 201) {
+        form.resetFields();
+        setIsLoading(false);
+        response("Data uploaded successfully.", "success");
+      } else errorHandler(event);
     }
 
     function errorHandler(event) {
       setIsLoading(false);
-      response("An error occured. pls try again", "error");
+      if (event.type && event.type == "error") {
+        response("An error occured. pls try again later.", "error");
+      } else {
+        response(ajax.response.data, "error");
+      }
     }
   };
   return (
