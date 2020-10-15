@@ -35,6 +35,11 @@ function Home() {
     }
   };
 
+  const props = {
+    multiple: false,
+    beforeUpload: () => false,
+  };
+
   const onFinish = async (values) => {
     let age = moment().diff(moment(values.dateOfBirth, "YYYYMMDD"), "years");
 
@@ -136,7 +141,7 @@ function Home() {
                 label="Photograph"
                 rules={[{ required: true, message: "Pls Upload a Photograph" }]}
               >
-                <Upload accept="image/*" onChange={storeFile}>
+                <Upload accept="image/*" onChange={storeFile} {...props}>
                   <Button icon={<UploadOutlined />}>Select File</Button>
                 </Upload>
               </Form.Item>
