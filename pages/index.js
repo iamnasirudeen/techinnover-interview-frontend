@@ -66,13 +66,19 @@ function Home() {
 
     var ajax = new XMLHttpRequest();
     ajax.addEventListener("load", completeHandler, false);
-    ajax.open("POST", "http://localhost:5000/user/create");
+    ajax.addEventListener("error", errorHandler, false);
+    ajax.open("POST", "http://172.104.205.11/user/create");
     ajax.send(formData);
 
     function completeHandler(event) {
       form.resetFields();
       setIsLoading(false);
       response("Data uploaded successfully.", "success");
+    }
+
+    function errorHandler(event) {
+      setIsLoading(false);
+      response("An error occured. pls try again", "error");
     }
   };
   return (
